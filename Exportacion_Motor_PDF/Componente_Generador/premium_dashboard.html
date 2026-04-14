@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informe Ejecutivo de Mercado · SymbioInformes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --c-noche:   #0D1B2A;
+            --c-marino:  #1E3A5F;
+            --c-acento:  #2563EB;
+            --c-blanco:  #FFFFFF;
+            --c-hueso:   #F8F9FB;
+            --c-hielo:   #EBF3FF;
+            --c-pizarra: #64748B;
+            --c-oscuro:  #1E293B;
+            --c-borde:   #E2E8F0;
+            --c-verde:   #10B981;
+            --c-rojo:    #DC2626;
+            --c-ambar:   #F59E0B;
+            --font: 'Inter', sans-serif;
+            --shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: var(--font);
+            background: #CBD5E1;
+            color: var(--c-oscuro);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+        }
+
+        /* ─── PÁGINA ─── */
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            background: var(--c-hueso);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            page-break-after: always;
+        }
+        .page-content {
+            padding: 22mm 18mm 16mm 18mm;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ─── PORTADA ─── */
+        .page-cover {
+            background: linear-gradient(145deg, var(--c-noche) 0%, #0a2540 60%, #0D2B52 100%);
+            color: var(--c-blanco);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 28mm 18mm 20mm;
+            min-height: 297mm;
+        }
+        .cover-orb-1 { position: absolute; top: -60px; right: -60px; width: 320px; height: 320px; border-radius: 50%; background: radial-gradient(circle, rgba(37,99,235,0.35) 0%, transparent 70%); pointer-events: none; }
+        .cover-orb-2 { position: absolute; bottom: 80px; left: -80px; width: 280px; height: 280px; border-radius: 50%; background: radial-gradient(circle, rgba(16,185,129,0.15) 0%, transparent 70%); pointer-events: none; }
+        .cover-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 20mm 20mm; pointer-events: none; }
+        .cover-logo { font-weight: 800; font-size: 18px; color: #93C5FD; display: flex; align-items: center; gap: 10px; position: relative; z-index: 2;}
+        .cover-badge { display: inline-block; background: rgba(37,99,235,0.25); border: 1px solid rgba(37,99,235,0.5); color: #93C5FD; font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; padding: 5px 12px; border-radius: 100px; margin-bottom: 18px; position: relative; z-index: 2;}
+        .cover-title { font-size: 44px; font-weight: 900; line-height: 1.05; margin-bottom: 20px; position: relative; z-index: 2; }
+        .cover-accent-line { height: 3px; width: 50px; background: var(--c-acento); margin-bottom: 22px; position: relative; z-index: 2; }
+        .cover-desc { font-size: 14px; color: #93C5FD; line-height: 1.7; max-width: 85%; position: relative; z-index: 2; }
+        .cover-meta { display: flex; gap: 32px; margin-top: 28px; position: relative; z-index: 2; }
+        .cover-meta-item { display: flex; flex-direction: column; gap: 3px; }
+        .cover-meta-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--c-pizarra); font-weight: 600; }
+        .cover-meta-value { font-size: 14px; font-weight: 700; color: var(--c-blanco); }
+        .cover-footer { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 16px; display: flex; justify-content: space-between; font-size: 11px; color: var(--c-pizarra); position: relative; z-index: 2; }
+
+        /* ─── CABECERA DE SECCIÓN ─── */
+        .section-header {
+            background: var(--c-marino);
+            color: var(--c-blanco);
+            padding: 14px 18mm;
+            margin: 0 -18mm 20px -18mm;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            position: relative;
+        }
+        .section-header::after { content: ''; position: absolute; right: 0; top: 0; width: 0; height: 0; border-style: solid; border-width: 52px 28px 0 0; border-color: transparent var(--c-hueso) transparent transparent; }
+        .section-num { font-size: 22px; font-weight: 900; color: #60A5FA; font-variant-numeric: tabular-nums; }
+        .section-title { font-size: 17px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* ─── INSIGHT BOX ─── */
+        .insight-box {
+            background: var(--c-hielo);
+            border-left: 4px solid var(--c-acento);
+            padding: 14px 16px;
+            margin-bottom: 18px;
+            border-radius: 0 8px 8px 0;
+            display: flex;
+            gap: 10px;
+        }
+        .insight-icon { font-size: 20px; flex-shrink: 0; }
+        .insight-text { font-size: 13px; font-weight: 500; color: var(--c-noche); line-height: 1.6; }
+
+        /* ─── KPI ROW ─── */
+        .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 18px; }
+        .kpi-row-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 18px; }
+        .kpi-card { background: var(--c-blanco); border: 1px solid var(--c-borde); border-radius: 10px; padding: 14px; box-shadow: var(--shadow); }
+        .kpi-label { font-size: 10px; font-weight: 600; color: var(--c-pizarra); text-transform: uppercase; letter-spacing: 0.8px; }
+        .kpi-value { font-size: 28px; font-weight: 800; color: var(--c-acento); line-height: 1; margin: 6px 0 4px; }
+        .kpi-trend { font-size: 11px; font-weight: 600; }
+        .up { color: var(--c-verde); } .down { color: var(--c-rojo); }
+
+        /* ─── CHART CONTAINER ─── */
+        .chart-wrap { background: var(--c-blanco); border: 1px solid var(--c-borde); border-radius: 10px; padding: 16px; margin-bottom: 16px; box-shadow: var(--shadow); }
+        .chart-title { font-size: 13px; font-weight: 700; color: var(--c-marino); margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+        .chart-source { font-size: 10px; font-weight: 400; color: var(--c-pizarra); }
+        .chart-canvas-wrap { position: relative; }
+        .chart-canvas-wrap canvas { display: block; }
+
+        /* ─── TABLA ─── */
+        .tbl-wrap { border: 1px solid var(--c-borde); border-radius: 10px; overflow: hidden; margin-bottom: 16px; }
+        .tbl { width: 100%; border-collapse: collapse; font-size: 12px; }
+        .tbl th { background: var(--c-noche); color: var(--c-blanco); padding: 10px 10px; text-align: right; font-weight: 600; font-size: 11px; }
+        .tbl th:first-child { text-align: left; }
+        .tbl td { padding: 8px 10px; text-align: right; border-bottom: 1px solid var(--c-borde); }
+        .tbl td:first-child { text-align: left; font-weight: 500; }
+        .tbl tr:nth-child(even) td { background: var(--c-hielo); }
+        .tbl tr:last-child td { border-bottom: none; }
+        .tbl .highlight { color: var(--c-acento); font-weight: 700; }
+
+        /* ─── TEXTO CUERPO ─── */
+        .text-intro { font-size: 13px; color: var(--c-oscuro); line-height: 1.7; margin-bottom: 16px; }
+
+        /* ─── GRID ─── */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+
+        /* ─── ÍNDICE ─── */
+        .toc-list { display: flex; flex-direction: column; gap: 0; margin: 24px 0; }
+        .toc-item { display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; border-bottom: 1px solid var(--c-borde); transition: background 0.2s; }
+        .toc-item:last-child { border-bottom: none; }
+        .toc-item:nth-child(even) { background: var(--c-hielo); }
+        .toc-left { display: flex; align-items: center; gap: 14px; }
+        .toc-num-box { width: 36px; height: 36px; border-radius: 8px; background: var(--c-marino); color: white; font-weight: 800; font-size: 14px; display: flex; align-items: center; justify-content: center; }
+        .toc-text { font-size: 15px; font-weight: 600; color: var(--c-oscuro); }
+        .toc-page { font-size: 13px; font-weight: 700; color: var(--c-acento); }
+
+        /* ─── CARD PARÁMETROS ─── */
+        .param-card { background: var(--c-blanco); border: 1px solid var(--c-borde); border-radius: 10px; padding: 18px; box-shadow: var(--shadow); }
+        .param-card.dark { background: var(--c-noche); color: var(--c-blanco); border-color: transparent; }
+        .param-card.blue { background: var(--c-hielo); border-color: rgba(37,99,235,0.2); }
+        .param-card-icon { width: 36px; height: 36px; border-radius: 8px; background: var(--c-hielo); display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
+        .param-card.dark .param-card-icon { background: rgba(37,99,235,0.2); }
+        .param-card h4 { font-size: 13px; font-weight: 700; margin-bottom: 10px; }
+        .param-card ul { list-style: none; font-size: 12px; }
+        .param-card ul li { padding: 6px 0; border-bottom: 1px solid var(--c-borde); display: flex; justify-content: space-between; }
+        .param-card.dark ul li { border-bottom-color: rgba(255,255,255,0.1); }
+        .param-card ul li:last-child { border-bottom: none; }
+        .param-key { color: var(--c-pizarra); }
+        .param-card.dark .param-key { color: #93C5FD; }
+        .param-val { font-weight: 600; }
+
+        /* ─── DESERCIÓN ─── */
+        .risk-tag { display: inline-flex; align-items: center; gap: 5px; background: rgba(220,38,38,0.1); color: var(--c-rojo); padding: 4px 10px; border-radius: 100px; font-size: 11px; font-weight: 700; }
+        .ok-tag { display: inline-flex; align-items: center; gap: 5px; background: rgba(16,185,129,0.1); color: var(--c-verde); padding: 4px 10px; border-radius: 100px; font-size: 11px; font-weight: 700; }
+
+        /* ─── SALARIOS ─── */
+        .salary-highlight { background: linear-gradient(135deg, var(--c-marino), var(--c-acento)); color: white; border-radius: 10px; padding: 20px; text-align: center; margin-bottom: 16px; }
+        .salary-big { font-size: 38px; font-weight: 900; line-height: 1; }
+        .salary-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; margin-top: 4px; }
+
+        /* ─── NOTA ─── */
+        .nota { font-size: 11px; color: var(--c-pizarra); line-height: 1.6; border-top: 1px solid var(--c-borde); padding-top: 12px; margin-top: auto; }
+
+        /* ─── FOOTER ─── */
+        .page-footer { margin-top: auto; padding-top: 14px; border-top: 1px solid var(--c-borde); display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: var(--c-pizarra); }
+        .footer-brand { font-weight: 700; color: var(--c-marino); }
+
+        /* ─── PRINT BUTTON ─── */
+        .print-btn { position: fixed; bottom: 28px; right: 28px; background: var(--c-acento); color: white; border: none; padding: 14px 24px; border-radius: 100px; font-weight: 700; font-size: 15px; cursor: pointer; box-shadow: 0 6px 20px rgba(37,99,235,0.4); display: flex; align-items: center; gap: 10px; z-index: 1000; transition: transform 0.2s, box-shadow 0.2s; }
+        .print-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(37,99,235,0.5); }
+
+        @media print {
+            body { background: white; padding: 0; gap: 0; }
+            .page { box-shadow: none; min-height: 0; height: 297mm; }
+            .print-btn { display: none; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+        }
+    </style>
+</head>
+<body>
+<button class="print-btn" onclick="window.print()">📄 Generar PDF (10 Págs.)</button>
+
+<!-- ════════════════════════════════════════════
+     PÁGINA 1 — PORTADA
+═══════════════════════════════════════════════ -->
+<div class="page page-cover">
+    <div class="cover-grid"></div>
+    <div class="cover-orb-1"></div>
+    <div class="cover-orb-2"></div>
+
+    <div class="cover-logo" style="position:relative;z-index:2">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        SymbioInformes
+    </div>
+
+    <div style="position:relative;z-index:2;margin-top:auto">
+        <div class="cover-badge">Informe Ejecutivo de Mercado</div>
+        <h1 class="cover-title">Ingeniería de Sistemas<br>y Computación</h1>
+        <div class="cover-accent-line"></div>
+        <p class="cover-desc">Análisis competitivo integral de posicionamiento, dinámica de matrícula, indicadores OLE de empleabilidad y salarios, y producción de graduados comparada con 42 programas del NBC regional.</p>
+        <div class="cover-meta">
+            <div class="cover-meta-item">
+                <span class="cover-meta-label">Institución</span>
+                <span class="cover-meta-value">Universidad Nacional de Colombia</span>
+            </div>
+            <div class="cover-meta-item">
+                <span class="cover-meta-label">Programa · SNIES</span>
+                <span class="cover-meta-value">Ing. Sistemas · 1693</span>
+            </div>
+            <div class="cover-meta-item">
+                <span class="cover-meta-label">Corte de datos</span>
+                <span class="cover-meta-value">Diciembre 2024</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="cover-footer">
+        <span>Generado: 10 de Abril, 2026</span>
+        <span>CONFIDENCIAL — Solo distribución interna</span>
+    </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     PÁGINA 2 — ÍNDICE
+═══════════════════════════════════════════════ -->
+<div class="page">
+    <div class="page-content">
+        <div class="section-header" style="background:var(--c-noche)">
+            <span class="section-title">Índice del Informe</span>
+        </div>
+
+        <div class="toc-list" style="border:1px solid var(--c-borde);border-radius:10px;overflow:hidden;margin-bottom:auto">
+            <div class="toc-item">
+                <div class="toc-left"><div class="toc-num-box" style="background:#475569">00</div><span class="toc-text">Parámetros del Informe Ejecutivo</span></div>
+                <span class="toc-page">Pág. 3</span>
+            </div>
+            <div class="toc-item">
+                <div class="toc-left"><div class="toc-num-box">01</div><span class="toc-text">Dinámica de Matrícula Total</span></div>
+                <span class="toc-page">Pág. 4</span>
+            </div>
+            <div class="toc-item">
+                <div class="toc-left"><div class="toc-num-box">02</div><span class="toc-text">Demanda Real: Análisis de Primer Curso</span></div>
+                <span class="toc-page">Pág. 5</span>
+            </div>
+            <div class="toc-item">
+                <div class="toc-left"><div class="toc-num-box">03</div><span class="toc-text">Producción Académica: Graduados</span></div>
+                <span class="toc-page">Pág. 6</span>
+            </div>
+            <div class="toc-item">
+                <div class="toc-left"><div class="toc-num-box">04</div><span class="toc-text">Retención y Deserción Estudiantil (SPADIES)</span></div>
+                <span class="toc-page">Pág. 7</span>
+            </div>
+            <div class="toc-item">
+                <div class="toc-left"><div class="toc-num-box">05</div><span class="toc-text">Empleabilidad y Tasas de Cotización (OLE)</span></div>
+                <span class="toc-page">Pág. 8</span>
+            </div>
+            <div class="toc-item">
+                <div class="toc-left"><div class="toc-num-box">06</div><span class="toc-text">Salarios de Enganche en el Mercado Laboral</span></div>
+                <span class="toc-page">Pág. 9</span>
+            </div>
+            <div class="toc-item" style="background:var(--c-hielo)">
+                <div class="toc-left"><div class="toc-num-box" style="background:#475569">07</div><span class="toc-text">Anexos y Metodología Data Lake</span></div>
+                <span class="toc-page">Pág. 10</span>
+            </div>
+        </div>
+
+        <div class="page-footer">
+            <div><span class="footer-brand">SymbioInformes</span> · Inteligencia Analítica Educativa</div>
+            <span class="footer-brand">Pág. 2</span>
+        </div>
+    </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     PÁGINA 3 — PARÁMETROS
+═══════════════════════════════════════════════ -->
+<div class="page">
+    <div class="page-content">
+        <div class="section-header">
+            <span class="section-num">00</span>
+            <span class="section-title">Parámetros del Informe Ejecutivo</span>
+        </div>
+
+        <div class="insight-box" style="border-left-color:var(--c-noche)">
+            <span class="insight-icon">📌</span>
+            <p class="insight-text">Este reporte estratégico evalúa de manera integral el programa contra un universo competitivo de <strong>42 programas de ingeniería similares</strong> en la región capital, empleando datos oficiales del Ministerio de Educación Nacional a corte del año 2024.</p>
+        </div>
+
+        <p class="text-intro">El propósito de este documento es proveer inteligencia accionable a los tomadores de decisiones académicas. En lugar de presentar datos aislados, este motor correlaciona el desempeño del programa enfrentándolo en tiempo real contra los promedios del mercado, sector y referentes del NBC.</p>
+
+        <div class="grid-3" style="margin-bottom:16px">
+            <div class="param-card">
+                <div class="param-card-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--c-acento)" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <h4 style="color:var(--c-marino)">Universo de Análisis</h4>
+                <ul>
+                    <li><span class="param-key">Región</span><span class="param-val">Bogotá D.C.</span></li>
+                    <li><span class="param-key">Nivel</span><span class="param-val">Universitario</span></li>
+                    <li><span class="param-key">NBC</span><span class="param-val">Ing. Sistemas</span></li>
+                    <li><span class="param-key">Modalidad</span><span class="param-val">Presencial</span></li>
+                    <li><span class="param-key" style="color:var(--c-marino);font-weight:700">Total IES</span><span class="param-val" style="color:var(--c-acento);font-weight:800">42 Programas</span></li>
+                </ul>
+            </div>
+            <div class="param-card blue">
+                <div class="param-card-icon" style="background:rgba(37,99,235,0.1)">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--c-acento)" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 12 12 17 22 12"/><polyline points="2 17 12 22 22 17"/></svg>
+                </div>
+                <h4 style="color:var(--c-marino)">Fuentes Oficiales</h4>
+                <ul>
+                    <li><span class="param-key">SNIES</span><span class="param-val">2020–2024</span></li>
+                    <li><span class="param-key">SPADIES</span><span class="param-val">Retención</span></li>
+                    <li><span class="param-key">OLE</span><span class="param-val">Empleabilidad</span></li>
+                    <li><span class="param-key">DNP / MinSalud</span><span class="param-val">Ingresos</span></li>
+                    <li><span class="param-key">Motor</span><span class="param-val">DuckDB / Parquet</span></li>
+                </ul>
+            </div>
+            <div class="param-card dark">
+                <div class="param-card-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
+                </div>
+                <h4 style="color:#93C5FD">Dimensiones Evaluadas</h4>
+                <ul style="color:var(--c-blanco)">
+                    <li><span class="param-key">1.</span><span class="param-val">Atracción de aspirantes</span></li>
+                    <li><span class="param-key">2.</span><span class="param-val">Crecimiento y mercado</span></li>
+                    <li><span class="param-key">3.</span><span class="param-val">Eficiencia (Retención)</span></li>
+                    <li><span class="param-key">4.</span><span class="param-val">Productividad y títulos</span></li>
+                    <li><span class="param-key">5.</span><span class="param-val">Éxito laboral (Salarios)</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="page-footer">
+            <div><span class="footer-brand">SymbioInformes</span> · Inteligencia Analítica Educativa</div>
+            <span class="footer-brand">Pág. 3</span>
+        </div>
+    </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     PÁGINA 4 — MATRÍCULA TOTAL
+═══════════════════════════════════════════════ -->
+<div class="page">
+    <div class="page-content">
+        <div class="section-header">
+            <span class="section-num">01</span>
+            <span class="section-title">Dinámica de Matrícula Total</span>
+        </div>
+
+        <div class="insight-box">
+            <span class="insight-icon">📈</span>
+            <p class="insight-text">El programa consolida cuatro años consecutivos de crecimiento, superando la barrera de <strong>4,850 estudiantes</strong> activos. Su participación en el NBC regional asciende al 18.5%, posicionándolo como líder absoluto frente a 42 IES competidoras.</p>
+        </div>
+
+        <div class="kpi-row">
+            <div class="kpi-card">
+                <div class="kpi-label">Matrícula Total 2024</div>
+                <div class="kpi-value">4,850</div>
+                <div class="kpi-trend up">↑ +8.3% vs. 2023</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Nuevos Ingresos 2024</div>
+                <div class="kpi-value">820</div>
+                <div class="kpi-trend up">↑ Estabilidad sólida</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Share NBC Regional</div>
+                <div class="kpi-value">18.5%</div>
+                <div class="kpi-trend up">↑ Líder de mercado</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Cohorte Femenina</div>
+                <div class="kpi-value">22%</div>
+                <div class="kpi-trend up">↑ +3 pp vs. 2020</div>
+            </div>
+        </div>
+
+        <p class="text-intro">El crecimiento de matrícula demuestra la resiliencia del programa frente a presiones económicas que afectaron al sector privado. Mientras el mercado promedio muestra estancamiento, esta institución expandió su capacidad receptiva manteniendo estándares de admisión.</p>
+
+        <div class="chart-wrap" style="flex:1">
+            <div class="chart-title">
+                Evolución de Matrícula Total (2020–2024) — Programa vs. Promedio del Mercado
+                <span class="chart-source">Fuente: SNIES · MEN</span>
+            </div>
+            <div class="chart-canvas-wrap" style="height:180px">
+                <canvas id="chartMatricula"></canvas>
+            </div>
+        </div>
+
+        <div class="page-footer">
+            <div><span class="footer-brand">SymbioInformes</span> · Inteligencia Analítica Educativa</div>
+            <span class="footer-brand">Pág. 4</span>
+        </div>
+    </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     PÁGINA 5 — PRIMER CURSO
+═══════════════════════════════════════════════ -->
+<div class="page">
+    <div class="page-content">
+        <div class="section-header">
+            <span class="section-num">02</span>
+            <span class="section-title">Demanda Real: Análisis de Primer Curso</span>
+        </div>
+
+        <div class="insight-box">
+            <span class="insight-icon">🔍</span>
+            <p class="insight-text">La matrícula de primer curso es el termómetro de demanda primaria. La ligera caída de <strong>–1.2%</strong> en 2024 no refleja pérdida de atractivo, sino una mejora estructural en retención que reduce la renovación necesaria de cohortes.</p>
+        </div>
+
+        <p class="text-intro">Los nuevos ingresos son el indicador más sensible al entorno macroeconómico y a la competencia de alternativas educativas cortas (bootcamps, técnicas). El análisis comparativo revela posiciones relativas ante los principales rivales del NBC.</p>
+
+        <div class="grid-2" style="flex:1;gap:14px">
+            <div class="chart-wrap" style="display:flex;flex-direction:column">
+                <div class="chart-title">
+                    Primer Curso por IES — 2024
+                    <span class="chart-source">Fuente: SNIES</span>
+                </div>
+                <div class="chart-canvas-wrap" style="height:200px">
+                    <canvas id="chartPrimerCursoBar"></canvas>
+                </div>
+            </div>
+            <div class="chart-wrap" style="display:flex;flex-direction:column">
+                <div class="chart-title">
+                    Variación Interanual Primer Curso (%)
+                    <span class="chart-source">Fuente: SNIES</span>
+                </div>
+                <div class="chart-canvas-wrap" style="height:200px">
+                    <canvas id="chartPrimerCursoVar"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="tbl-wrap" style="margin-top:10px">
+            <table class="tbl">
+                <thead>
+                    <tr>
+                        <th>Institución</th>
+                        <th>2022</th><th>2023</th><th>2024</th>
+                        <th>Var. 23→24</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="highlight">■ UNIVERSIDAD NACIONAL</span></td>
+                        <td>800</td><td>830</td><td class="highlight">820</td>
+                        <td><span class="down">–1.2%</span></td>
+                    </tr>
+                    <tr>
+                        <td>UNIVERSIDAD DE LOS ANDES</td>
+                        <td>650</td><td>660</td><td>680</td>
+                        <td><span class="up">+3.0%</span></td>
+                    </tr>
+                    <tr>
+                        <td>UNIVERSIDAD DISTRITAL</td>
+                        <td>720</td><td>710</td><td>750</td>
+                        <td><span class="up">+5.6%</span></td>
+                    </tr>
+                    <tr>
+                        <td>UNIV. EXTERNADO</td>
+                        <td>300</td><td>280</td><td>250</td>
+                        <td><span class="down">–10.7%</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="page-footer">
+            <div><span class="footer-brand">SymbioInformes</span> · Inteligencia Analítica Educativa</div>
+            <span class="footer-brand">Pág. 5</span>
+        </div>
+    </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     PÁGINA 6 — GRADUADOS
+═══════════════════════════════════════════════ -->
+<div class="page">
+    <div class="page-content">
+        <div class="section-header">
+            <span class="section-num">03</span>
+            <span class="section-title">Producción Académica: Graduados</span>
+        </div>
+
+        <div class="insight-box">
+            <span class="insight-icon">🎓</span>
+            <p class="insight-text">La eficiencia terminal aumentó <strong>+15%</strong> en el último bienio, con <strong>450 títulos emitidos en 2024</strong>. Los avances en tutorías resolvieron el cuello de botella histórico en ciencias básicas.</p>
+        </div>
+
+        <div class="kpi-row">
+            <div class="kpi-card">
+                <div class="kpi-label">Graduados 2024</div>
+                <div class="kpi-value">450</div>
+                <div class="kpi-trend up">↑ +15% bienal</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Tiempo Medio de Graduación</div>
+                <div class="kpi-value">11 Sem.</div>
+                <div class="kpi-trend up">↓ Bajó de 11.5</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Tasa de Titulación</div>
+                <div class="kpi-value">62%</div>
+                <div class="kpi-trend up">↑ Sobre la cohorte</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Brecha de Género (H:M)</div>
+                <div class="kpi-value">3 : 1</div>
+                <div class="kpi-trend up">Mujeres en alza</div>
+            </div>
+        </div>
+
+        <p class="text-intro">El volumen creciente de egresados inyecta talento calificado al mercado laboral. Comparativamente, la producción de este programa supera en un 20% el promedio del NBC, consolidando su liderazgo en generación de profesionales TIC.</p>
+
+        <div class="grid-2" style="flex:1">
+            <div class="chart-wrap" style="display:flex;flex-direction:column">
+                <div class="chart-title">
+                    Graduados por Año (2020–2024)
+                    <span class="chart-source">Fuente: SNIES</span>
+                </div>
+                <div class="chart-canvas-wrap" style="height:200px">
+                    <canvas id="chartGraduados"></canvas>
+                </div>
+            </div>
+            <div class="chart-wrap" style="display:flex;flex-direction:column">
+                <div class="chart-title">
+                    Comparativo Graduados vs. Top 4 IES 2024
+                    <span class="chart-source">Fuente: SNIES</span>
+                </div>
+                <div class="chart-canvas-wrap" style="height:200px">
+                    <canvas id="chartGraduadosComp"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-footer">
+            <div><span class="footer-brand">SymbioInformes</span> · Inteligencia Analítica Educativa</div>
+            <span class="footer-brand">Pág. 6</span>
+        </div>
+    </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     PÁGINA 7 — DESERCIÓN
+═══════════════════════════════════════════════ -->
+<div class="page">
+    <div class="page-content">
+        <div class="section-header">
+            <span class="section-num">04</span>
+            <span class="section-title">Retención y Deserción Estudiantil (SPADIES)</span>
+        </div>
+
+        <div class="insight-box" style="border-left-color:var(--c-rojo)">
+            <span class="insight-icon">⚠️</span>
+            <p class="insight-text">La deserción <strong>temprana (semestres 1–3)</strong> concentra el 60% de la pérdida estudiantil. Sin embargo, la tasa global ha mejorado 4.4 pp en 4 años, alcanzando su mínimo histórico de <strong>8.1%</strong> en 2024.</p>
+        </div>
+
+        <p class="text-intro">Los cruces SPADIES muestran que cruzar el umbral del cuarto semestre reduce la probabilidad de deserción a menos del 5%. El 80% de las desvinculaciones actuales responden a causas académicas —no socioeconómicas— gracias a las políticas de bienestar universitario.</p>
+
+        <div class="grid-2" style="flex:1">
+            <div class="chart-wrap" style="display:flex;flex-direction:column">
+                <div class="chart-title">
+                    Evolución Tasa de Deserción Anual (%)
+                    <span class="chart-source">Fuente: SPADIES</span>
+                </div>
+                <div class="chart-canvas-wrap" style="height:170px">
+                    <canvas id="chartDesercion"></canvas>
+                </div>
+                <div style="margin-top:10px">
+                    <span class="ok-tag">✓ Mínimo histórico 2024: 8.1%</span>
+                </div>
+            </div>
+            <div class="chart-wrap" style="display:flex;flex-direction:column">
+                <div class="chart-title">
+                    Riesgo de Deserción por Semestre (%)
+                    <span class="chart-source">Fuente: SPADIES</span>
+                </div>
+                <div class="chart-canvas-wrap" style="height:170px">
+                    <canvas id="chartRiesgoPorSemestre"></canvas>
+                </div>
+                <div style="margin-top:10px">
+                    <span class="risk-tag">⚑ Zona crítica: Semestres 1–3</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-wrap" style="margin-top:12px">
+            <div class="chart-title">
+                Causas de Deserción 2024 — Distribución Porcentual
+                <span class="chart-source">Fuente: SPADIES</span>
+            </div>
+            <div class="chart-canvas-wrap" style="height:100px">
+                <canvas id="chartCausas"></canvas>
+            </div>
+        </div>
+
+        <div class="page-footer">
+            <div><span class="footer-brand">SymbioInformes</span> · Inteligencia Analítica Educativa</div>
+            <span class="footer-brand">Pág. 7</span>
+        </div>
+    </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     PÁGINA 8 — EMPLEABILIDAD OLE
+═══════════════════════════════════════════════ -->
+<div class="page">
+    <div class="page-content">
+        <div class="section-header">
+            <span class="section-num">05</span>
+            <span class="section-title">Empleabilidad y Tasas de Cotización (OLE)</span>
+        </div>
+
+        <div class="insight-box" style="border-left-color:var(--c-verde)">
+            <span class="insight-icon">💼</span>
+            <p class="insight-text">La tasa de cotización a seguridad social alcanza el <strong>92.5%</strong> a los 12 meses de graduación, la más alta del NBC regional. El mercado absorbe este perfil prácticamente de forma instantánea.</p>
+        </div>
+
+        <div class="kpi-row-3">
+            <div class="kpi-card">
+                <div class="kpi-label">Cotización mes 6</div>
+                <div class="kpi-value" style="color:var(--c-verde)">85%</div>
+                <div class="kpi-trend up">↑ Excelente absorción</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Cotización mes 12</div>
+                <div class="kpi-value" style="color:var(--c-verde)">92.5%</div>
+                <div class="kpi-trend up">↑ Casi pleno empleo</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Empleo Formal</div>
+                <div class="kpi-value" style="color:var(--c-verde)">95%</div>
+                <div class="kpi-trend up">↑ Del total cotizantes</div>
+            </div>
+        </div>
+
+        <p class="text-intro">El análisis OLE confirma que los egresados de este programa son de los más veloces en insertarse al mercado laboral formal. La brecha respecto al promedio NBC (+4.5 pp) se ha mantenido estable durante 4 años consecutivos.</p>
+
+        <div class="chart-wrap" style="flex:1">
+            <div class="chart-title">
+                Evolución de Tasas de Cotización OLE por Mes Post-Grado (2020–2024)
+                <span class="chart-source">Fuente: OLE · MEN</span>
+            </div>
+            <div class="chart-canvas-wrap" style="height:200px">
+                <canvas id="chartOLE"></canvas>
+            </div>
+        </div>
+
+        <div class="page-footer">
+            <div><span class="footer-brand">SymbioInformes</span> · Inteligencia Analítica Educativa</div>
+            <span class="footer-brand">Pág. 8</span>
+        </div>
+    </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     PÁGINA 9 — SALARIOS
+═══════════════════════════════════════════════ -->
+<div class="page">
+    <div class="page-content">
+        <div class="section-header">
+            <span class="section-num">06</span>
+            <span class="section-title">Salarios de Enganche en el Mercado Laboral</span>
+        </div>
+
+        <div class="insight-box" style="background:#FEF3C7;border-left-color:var(--c-ambar)">
+            <span class="insight-icon">💰</span>
+            <p class="insight-text" style="color:#92400E">El salario de enganche promedio supera los <strong>$4.250.000 COP</strong>, ubicando al egresado en el <strong>Top 10%</strong> de remuneración juvenil nacional. La brecha positiva frente al mercado regional es de +$400K.</p>
+        </div>
+
+        <div class="grid-2" style="margin-bottom:14px">
+            <div class="salary-highlight">
+                <div class="salary-big">$4.25M</div>
+                <div class="salary-label">Salario Mediano Egresado UNAL · 1er Año COP</div>
+            </div>
+            <div class="salary-highlight" style="background:linear-gradient(135deg,var(--c-pizarra),var(--c-oscuro))">
+                <div class="salary-big">$3.85M</div>
+                <div class="salary-label">Promedio Mercado NBC · Bogotá D.C. COP</div>
+            </div>
+        </div>
+
+        <div class="chart-wrap" style="flex:1">
+            <div class="chart-title">
+                Comparativo Salarial Anual — Evolución 2020–2024 (en millones COP)
+                <span class="chart-source">Fuente: OLE · DNP</span>
+            </div>
+            <div class="chart-canvas-wrap" style="height:190px">
+                <canvas id="chartSalarios"></canvas>
+            </div>
+        </div>
+
+        <div class="nota">* Los salarios reflejan únicamente ingresos gravables base reportados al sistema de seguridad social. No incluyen bonificaciones, comisiones, beneficios en especie ni ingresos por contratos freelance internacionales. Fuente: Observatorio Laboral para la Educación (OLE) · Datos a diciembre 2024.</div>
+
+        <div class="page-footer">
+            <div><span class="footer-brand">SymbioInformes</span> · Inteligencia Analítica Educativa</div>
+            <span class="footer-brand">Pág. 9</span>
+        </div>
+    </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     PÁGINA 10 — ANEXOS
+═══════════════════════════════════════════════ -->
+<div class="page">
+    <div class="page-content">
+        <div class="section-header" style="background:var(--c-pizarra)">
+            <span class="section-title">Anexos y Metodología Data Lake</span>
+        </div>
+
+        <h3 style="color:var(--c-marino);font-size:15px;font-weight:700;margin-bottom:10px">Fuentes y Extracción de Datos</h3>
+        <p class="text-intro">Los datos expuestos provienen íntegramente de los microdatos publicados a corte de diciembre de 2024 por el Ministerio de Educación Nacional de Colombia:</p>
+
+        <div class="grid-3" style="margin-bottom:16px">
+            <div class="param-card">
+                <h4 style="color:var(--c-marino)">SNIES</h4>
+                <p style="font-size:12px;color:var(--c-pizarra);line-height:1.6">Sistema Nacional de Información de la Educación Superior. Matrícula, graduados y primer curso 2020–2024.</p>
+            </div>
+            <div class="param-card blue">
+                <h4 style="color:var(--c-marino)">SPADIES</h4>
+                <p style="font-size:12px;color:var(--c-pizarra);line-height:1.6">Sistema para la Prevención y Análisis de la Deserción en las IES. Seguimiento de cohortes semestral.</p>
+            </div>
+            <div class="param-card">
+                <h4 style="color:var(--c-marino)">OLE</h4>
+                <p style="font-size:12px;color:var(--c-pizarra);line-height:1.6">Observatorio Laboral para la Educación. Tasas de cotización e ingresos base de enganche post-grado.</p>
+            </div>
+        </div>
+
+        <h3 style="color:var(--c-marino);font-size:15px;font-weight:700;margin-bottom:10px">Motor de Cómputo y Modelado</h3>
+        <p class="text-intro">SymbioInformes unifica más de 12 archivos en formato <code>.parquet</code> mediante consultas aceleradas con <strong>DuckDB</strong>. Las comparativas de cuota de mercado y promedios porcentuales se ejecutan on-the-fly, eliminando sesgos de tabulación estática. Las series con datos faltantes del MEN se interpolan mediante estimadores lineales para garantizar coherencia visual.</p>
+
+        <div class="chart-wrap">
+            <div class="chart-title">
+                Resumen de Posición Competitiva — Radar Multidimensional
+                <span class="chart-source">Percentil relativo vs. NBC Bogotá</span>
+            </div>
+            <div class="chart-canvas-wrap" style="height:170px">
+                <canvas id="chartRadar"></canvas>
+            </div>
+        </div>
+
+        <div style="text-align:center;padding:20px 0;border-top:1px solid var(--c-borde);margin-top:auto">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--c-pizarra)" stroke-width="2" style="margin-bottom:8px"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            <p style="font-size:11px;color:var(--c-pizarra);font-weight:600;letter-spacing:1px;text-transform:uppercase">DOCUMENTO CONFIDENCIAL · SOLO DISTRIBUCIÓN INTERNA AUTORIZADA</p>
+        </div>
+
+        <div class="page-footer">
+            <div><span class="footer-brand">SymbioInformes</span> · Inteligencia Analítica Educativa</div>
+            <span class="footer-brand">Pág. 10</span>
+        </div>
+    </div>
+</div>
+
+
+<script>
+const BLUE   = '#2563EB';
+const NAVY   = '#1E3A5F';
+const GREEN  = '#10B981';
+const RED    = '#DC2626';
+const GRAY   = '#94A3B8';
+const AMBER  = '#F59E0B';
+
+const defaults = {
+    plugins: { legend: { labels: { font: { family:'Inter', size:11 }, boxWidth:12 } } },
+    scales: {
+        x: { grid: { color:'rgba(0,0,0,0.04)' }, ticks: { font:{ family:'Inter', size:10 } } },
+        y: { grid: { color:'rgba(0,0,0,0.06)' }, ticks: { font:{ family:'Inter', size:10 } } }
+    }
+};
+
+// MATRÍCULA
+new Chart(document.getElementById('chartMatricula'), {
+    type: 'line',
+    data: {
+        labels: ['2020','2021','2022','2023','2024'],
+        datasets: [
+            { label: 'UNAL (Programa)', data:[3950,4100,4320,4480,4850], borderColor:BLUE, backgroundColor:'rgba(37,99,235,0.08)', fill:true, tension:0.4, borderWidth:3, pointRadius:5, pointBackgroundColor:BLUE },
+            { label: 'Promedio NBC D.C.', data:[3500,3480,3510,3490,3520], borderColor:GRAY, borderDash:[6,4], borderWidth:2, tension:0.4, pointRadius:4, pointBackgroundColor:GRAY }
+        ]
+    },
+    options: { ...defaults, responsive:true, maintainAspectRatio:false, plugins:{ ...defaults.plugins, legend:{display:true,position:'bottom',labels:{font:{family:'Inter',size:11},boxWidth:12}} } }
+});
+
+// PRIMER CURSO — BAR
+new Chart(document.getElementById('chartPrimerCursoBar'), {
+    type: 'bar',
+    data: {
+        labels: ['UNAL','Andes','Distrital','ECCI','Javeriana','Externado'],
+        datasets: [{ label:'Nuevos Ingresos 2024', data:[820,680,750,520,410,250], backgroundColor:[BLUE,GRAY,GRAY,GRAY,GRAY,RED], borderRadius:6, borderSkipped:false }]
+    },
+    options: { ...defaults, responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false} }, scales:{ x:{ grid:{display:false}, ticks:{font:{family:'Inter',size:9}} }, y:{ grid:{color:'rgba(0,0,0,0.05)'}, ticks:{font:{family:'Inter',size:10}} } } }
+});
+
+// PRIMER CURSO — VARIACIÓN
+new Chart(document.getElementById('chartPrimerCursoVar'), {
+    type: 'bar',
+    data: {
+        labels: ['UNAL','Andes','Distrital','ECCI','Javeriana','Externado'],
+        datasets: [{ label:'Variación 2023→2024 (%)', data:[-1.2,3.0,5.6,2.1,-0.8,-10.7], backgroundColor:[GRAY,GREEN,GREEN,GREEN,GRAY,RED], borderRadius:6 }]
+    },
+    options: { ...defaults, responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false} }, scales:{ x:{ grid:{display:false}, ticks:{font:{family:'Inter',size:9}} }, y:{ grid:{color:'rgba(0,0,0,0.05)'}, ticks:{font:{family:'Inter',size:10}, callback:v=>v+'%'} } } }
+});
+
+// GRADUADOS LÍNEA
+new Chart(document.getElementById('chartGraduados'), {
+    type: 'bar',
+    data: {
+        labels: ['2020','2021','2022','2023','2024'],
+        datasets: [
+            { label:'Graduados UNAL', data:[320,340,370,390,450], backgroundColor:'rgba(37,99,235,0.8)', borderRadius:6 },
+            { label:'Promedio NBC', data:[280,285,290,300,310], type:'line', borderColor:GRAY, borderDash:[5,5], borderWidth:2, pointRadius:4, fill:false, tension:0.3 }
+        ]
+    },
+    options: { ...defaults, responsive:true, maintainAspectRatio:false, plugins:{legend:{display:true,position:'bottom',labels:{font:{family:'Inter',size:10},boxWidth:10}}} }
+});
+
+// GRADUADOS COMPARATIVO
+new Chart(document.getElementById('chartGraduadosComp'), {
+    type: 'doughnut',
+    data: {
+        labels: ['UNAL','Los Andes','Javeriana','Distrital','Resto NBC'],
+        datasets: [{ data:[450,340,310,280,820], backgroundColor:[BLUE,'#60A5FA','#93C5FD',GRAY,'#E2E8F0'], borderWidth:2, borderColor:'white' }]
+    },
+    options: { responsive:true, maintainAspectRatio:false, cutout:'60%', plugins:{ legend:{display:true,position:'right',labels:{font:{family:'Inter',size:10},boxWidth:10,padding:8}} } }
+});
+
+// DESERCIÓN
+new Chart(document.getElementById('chartDesercion'), {
+    type: 'line',
+    data: {
+        labels: ['2020','2021','2022','2023','2024'],
+        datasets: [
+            { label:'UNAL (%)', data:[13.2,12.5,10.2,9.5,8.1], borderColor:RED, backgroundColor:'rgba(220,38,38,0.08)', fill:true, tension:0.4, borderWidth:3, pointRadius:5, pointBackgroundColor:RED },
+            { label:'Promedio NBC (%)', data:[18.0,17.5,17.2,16.8,16.4], borderColor:GRAY, borderDash:[5,5], borderWidth:2, tension:0.3, pointRadius:4 }
+        ]
+    },
+    options: { ...defaults, responsive:true, maintainAspectRatio:false, plugins:{legend:{display:true,position:'bottom',labels:{font:{family:'Inter',size:10},boxWidth:10}}}, scales:{y:{ticks:{callback:v=>v+'%'}}} }
+});
+
+// DESERCIÓN POR SEMESTRE
+new Chart(document.getElementById('chartRiesgoPorSemestre'), {
+    type: 'bar',
+    data: {
+        labels: ['Sem 1','Sem 2','Sem 3','Sem 4','Sem 5+'],
+        datasets: [{ label:'% Desertores', data:[38,22,14,6,3], backgroundColor:[RED,'rgba(220,38,38,0.7)','rgba(220,38,38,0.45)',GREEN,'rgba(16,185,129,0.5)'], borderRadius:6 }]
+    },
+    options: { ...defaults, responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{y:{ticks:{callback:v=>v+'%'}}} }
+});
+
+// CAUSAS DESERCIÓN
+new Chart(document.getElementById('chartCausas'), {
+    type: 'bar',
+    data: {
+        labels: ['Académica','Socioeconómica','Personal','Vocacional','Migración IES'],
+        datasets: [{ label:'% Causas 2024', data:[42,18,15,14,11], backgroundColor:[RED,AMBER,GRAY,'#8B5CF6','#0891B2'], borderRadius:6, barThickness:24 }]
+    },
+    options: { indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{x:{ticks:{callback:v=>v+'%'},grid:{color:'rgba(0,0,0,0.04)'}},y:{grid:{display:false}}} }
+});
+
+// OLE
+new Chart(document.getElementById('chartOLE'), {
+    type: 'line',
+    data: {
+        labels: ['M1','M3','M6','M9','M12','M18','M24'],
+        datasets: [
+            { label:'UNAL 2024', data:[52,68,85,89,92.5,94,96], borderColor:GREEN, backgroundColor:'rgba(16,185,129,0.1)', fill:true, tension:0.4, borderWidth:3, pointRadius:5, pointBackgroundColor:GREEN },
+            { label:'Promedio NBC', data:[40,55,72,80,88,90,92], borderColor:GRAY, borderDash:[5,5], borderWidth:2, tension:0.3, pointRadius:4 },
+            { label:'UNAL 2020', data:[45,62,78,84,88,90,93], borderColor:'#93C5FD', borderDash:[3,3], borderWidth:2, tension:0.4, pointRadius:3 }
+        ]
+    },
+    options: { ...defaults, responsive:true, maintainAspectRatio:false, plugins:{legend:{display:true,position:'bottom',labels:{font:{family:'Inter',size:10},boxWidth:10}}}, scales:{y:{ticks:{callback:v=>v+'%'},max:100,min:30}} }
+});
+
+// SALARIOS
+new Chart(document.getElementById('chartSalarios'), {
+    type: 'line',
+    data: {
+        labels: ['2020','2021','2022','2023','2024'],
+        datasets: [
+            { label:'Egresados UNAL (M COP)', data:[3.2,3.5,3.8,4.0,4.25], borderColor:BLUE, backgroundColor:'rgba(37,99,235,0.08)', fill:true, tension:0.4, borderWidth:3, pointRadius:5, pointBackgroundColor:BLUE },
+            { label:'Promedio NBC D.C.', data:[2.8,3.0,3.2,3.5,3.85], borderColor:GRAY, borderDash:[5,5], borderWidth:2, tension:0.3, pointRadius:4 },
+            { label:'Inflación promedio (línea ref.)', data:[2.5,2.65,2.85,3.1,3.3], borderColor:AMBER, borderDash:[2,4], borderWidth:1.5, tension:0.3, pointRadius:3 }
+        ]
+    },
+    options: { ...defaults, responsive:true, maintainAspectRatio:false, plugins:{legend:{display:true,position:'bottom',labels:{font:{family:'Inter',size:10},boxWidth:10}}}, scales:{y:{ticks:{callback:v=>'$'+v+'M'}}} }
+});
+
+// RADAR
+new Chart(document.getElementById('chartRadar'), {
+    type: 'radar',
+    data: {
+        labels: ['Matrícula','Primer Curso','Graduados','Retención','Empleabilidad','Salario'],
+        datasets: [
+            { label:'UNAL (Percentil)', data:[92,78,88,82,95,90], backgroundColor:'rgba(37,99,235,0.15)', borderColor:BLUE, borderWidth:2, pointBackgroundColor:BLUE, pointRadius:4 },
+            { label:'Promedio NBC', data:[50,50,50,50,50,50], backgroundColor:'rgba(100,116,139,0.1)', borderColor:GRAY, borderDash:[5,5], borderWidth:1.5, pointRadius:3 }
+        ]
+    },
+    options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:true,position:'bottom',labels:{font:{family:'Inter',size:10},boxWidth:10}}}, scales:{r:{grid:{color:'rgba(0,0,0,0.08)'},ticks:{display:false},pointLabels:{font:{family:'Inter',size:11,weight:'600'}}}} }
+});
+</script>
+</body>
+</html>

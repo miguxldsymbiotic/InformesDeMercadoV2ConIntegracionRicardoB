@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "C:\Users\migux\Downloads\nuevaPRUEBAinformeMERCADO\InformePDF\dashboard\app.py", line 4998, in download_pdf
+    data_ctx = _prepare_report_content(engine, p)
+  File "C:\Users\migux\Downloads\nuevaPRUEBAinformeMERCADO\InformePDF\dashboard\app.py", line 4277, in _prepare_report_content
+    engine.export_plotly_fig(calc_plot_dist_costo_matricula(), "dist_costo"),
+NameError: name 'calc_plot_dist_costo_matricula' is not defined

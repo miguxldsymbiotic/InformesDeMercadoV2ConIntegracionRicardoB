@@ -1,0 +1,11 @@
+- [x] Update `report_comparada_engine.py`
+    - [x] Add missing `comp_graduados` plot in Section 2
+    - [x] Standardize Typst function calls
+    - [x] Refine spacing and layout
+- [x] Update `test_snies_2051.py`
+    - [x] Add dummy chart generation (Plotly)
+    - [x] Use `export_figs_parallel` to generate SVG assets
+    - [x] Populate `data_ctx["plots"]` with SVG paths
+- [ ] Run and Verify
+    - [ ] Execute `python test_snies_2051.py`
+    - [ ] Inspect generated PDF in `C:\Users\migux\Downloads\pruebaspdfs`
